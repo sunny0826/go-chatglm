@@ -13,8 +13,9 @@ import (
 const (
 	BaseURL = "https://maas.aminer.cn/api/paas"
 
-	EnginesPath      = "/model/v1/open/engines/"
-	EnginesPathV2    = "/model/v2/open/engines/"
+	EnginesPath   = "/model/v1/open/engines/"
+	EnginesPathV2 = "/model/v2/open/engines/"
+	// #nosec G101
 	TokenPath        = "/passApiToken/createApiToken"
 	QueryOrderResult = "/request-task/query-request-task-result"
 )
@@ -70,6 +71,9 @@ func GetToken(apiKey, publicKey string) (string, error) {
 	}
 	var data TokenResponse
 	err = json.Unmarshal(resp, &data)
+	if err != nil {
+		return "", err
+	}
 	if data.Success {
 		return data.Data, nil
 	} else {
@@ -110,7 +114,8 @@ func sendPost(url string, params Params, authToken ...string) ([]byte, error) {
 	return io.ReadAll(resp.Body)
 }
 
-func ExecuteEngine(abilityType, engineType, authToken string, params EngineRequest, timeout ...time.Duration) (EngineResponse, error) {
+func ExecuteEngine(abilityType, engineType, authToken string, params EngineRequest,
+	timeout ...time.Duration) (EngineResponse, error) {
 	reqEngineAPIURL := fmt.Sprintf("%s%s%s/%s", BaseURL, EnginesPath, abilityType, engineType)
 	resp, err := sendPostWithTimeout(reqEngineAPIURL, params, authToken, timeout...)
 	if err != nil {
