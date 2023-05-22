@@ -20,9 +20,9 @@ func main() {
 
 	// 请求参数
 	data := chatglm.EngineRequest{
-		TopP:        0.7,                                    //TopP采样又称核采样（Nucleus Sampling）。topP值会定义候选集在概率分布中的概率密度。若topP值为0.6，则解码器输出的概率密度的前60%会作为候选集。我们建议您不要与topK和temperature同时使用或同时进行调节。取值范围0～1.0，当topP为0时，该参数不起作用
-		Temperature: 0.9,                                    //温度系数，取值>0.0，默认为1.0。更大的温度系数表示模型生成的多样性更强。取值范围0.5～1.0
-		Prompt:      "摸鱼先生在家里蹲大学担任什么职务？",                    //输入内容，范围1～2048
+		TopP:        0.7,                                    // TopP采样又称核采样（Nucleus Sampling）。topP值会定义候选集在概率分布中的概率密度。若topP值为0.6，则解码器输出的概率密度的前60%会作为候选集。我们建议您不要与topK和temperature同时使用或同时进行调节。取值范围0～1.0，当topP为0时，该参数不起作用
+		Temperature: 0.9,                                    // 温度系数，取值>0.0，默认为1.0。更大的温度系数表示模型生成的多样性更强。取值范围0.5～1.0
+		Prompt:      "摸鱼先生在家里蹲大学担任什么职务？",                    // 输入内容，范围1～2048
 		History:     []string{"家里蹲大学校长是谁?", "家里蹲大学校长是摸鱼先生"}, // 会话历史,只支持偶数，Q A Q A 的形式传进去
 	}
 	engineResponse, err := chatglm.ExecuteEngine(abilityType, engineType, token, data)

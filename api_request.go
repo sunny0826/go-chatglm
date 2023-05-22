@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"time"
@@ -20,7 +19,7 @@ const (
 	QueryOrderResult = "/request-task/query-request-task-result"
 )
 
-type Params map[string]interface{}
+type Params map[string]any
 
 type EngineRequest struct {
 	TopP          float64  `json:"top_p"`
@@ -89,8 +88,6 @@ func Chat(abilityType, engineType, authToken string, params Params) (map[string]
 	return data, err
 }
 
-// Other functions would be similar to these
-
 func sendPost(url string, params Params, authToken ...string) ([]byte, error) {
 	reqBody, err := json.Marshal(params)
 	if err != nil {
@@ -110,7 +107,7 @@ func sendPost(url string, params Params, authToken ...string) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func ExecuteEngine(abilityType, engineType, authToken string, params EngineRequest, timeout ...time.Duration) (EngineResponse, error) {
