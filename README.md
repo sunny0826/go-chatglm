@@ -1,5 +1,8 @@
 # Go ChatGLM
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/sunny0826/go-chatglm.svg)](https://pkg.go.dev/github.com/sunny0826/go-chatglm)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sunny0826/go-chatglm)](https://goreportcard.com/report/github.com/sunny0826/go-chatglm)
+
 This library provides unofficial Go clients for [ChatGLM API](https://open.bigmodel.ai/howuse/describesummary). We support:
 
 - [Get Token](https://open.bigmodel.ai/howuse/authentication)
