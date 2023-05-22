@@ -74,11 +74,10 @@ func GetToken(apiKey, publicKey string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if data.Success {
-		return data.Data, nil
-	} else {
+	if !data.Success {
 		return "", fmt.Errorf(data.Msg)
 	}
+	return data.Data, nil
 }
 
 func Chat(abilityType, engineType, authToken string, params Params) (map[string]any, error) {
