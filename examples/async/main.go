@@ -29,8 +29,7 @@ func main() {
 	//fmt.Println(resp)
 
 	taskID := "75753966931688458417874899228181488752"
-	m := chatglm.ModelAPI{Model: chatglm.ChatGLMLite}
-	resp, err := m.QueryAsyncInvokeResult(apiKey, taskID)
+	resp, err := chatglm.QueryAsyncInvokeResult(apiKey, taskID)
 	if err != nil {
 		fmt.Println(err)
 		return
