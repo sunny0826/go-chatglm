@@ -40,6 +40,14 @@ func (m ModelAPI) AsyncInvoke(apiKey string) (map[string]interface{}, error) {
 	return post(buildAPIURL(m.Model, InvokeTypeAsync), token, m.buildParams(), APITimeout)
 }
 
+func (m ModelAPI) QueryAsyncInvokeResult(apiKey, taskID string) (map[string]interface{}, error) {
+	token, err := generateToken(apiKey)
+	if err != nil {
+		return nil, err
+	}
+	return get(buildGetAPIURL(m.Model, InvokeTypeAsync, taskID), token, APITimeout)
+}
+
 func (m ModelAPI) buildParams() map[string]interface{} {
 	params := make(map[string]interface{})
 	params["prompt"] = m.Prompt
@@ -49,10 +57,20 @@ func (m ModelAPI) buildParams() map[string]interface{} {
 }
 
 func buildAPIURL(module, invokeMethod string) string {
+	url := getBaseURL()
+	return fmt.Sprintf("%s/%s/%s", url, module, invokeMethod)
+}
+
+func buildGetAPIURL(module, invokeMethod, taskID string) string {
+	url := getBaseURL()
+	return fmt.Sprintf("%s/-/%s/%s", url, invokeMethod, taskID)
+}
+
+func getBaseURL() string {
 	var url string
 	url = os.Getenv("ZHIPUAI_MODEL_API_URL")
 	if url == "" {
 		url = BaseURL
 	}
-	return fmt.Sprintf("%s/%s/%s", url, module, invokeMethod)
+	return url
 }
