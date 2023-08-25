@@ -38,7 +38,7 @@ func post(apiURL, token string, params map[string]interface{}, timeout time.Dura
 	return result, nil
 }
 
-//noinspection ALL
+// noinspection ALL
 func stream(apiURL, token string, params map[string]interface{}, timeout time.Duration) (*resty.Response, error) {
 	client := resty.New()
 	client.SetTimeout(timeout)
@@ -59,7 +59,7 @@ func stream(apiURL, token string, params map[string]interface{}, timeout time.Du
 	return resp, nil
 }
 
-//noinspection ALL
+// noinspection ALL
 func get(apiURL, token string, timeout time.Duration) (map[string]interface{}, error) {
 	client := resty.New()
 	client.SetTimeout(timeout)
