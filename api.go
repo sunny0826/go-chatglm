@@ -14,14 +14,14 @@ type ModelAPI struct {
 }
 
 const (
-	BaseURL           = "https://open.bigmodel.cn/api/paas/v3/model-api"
-	InvokeTypeSync    = "invoke"
-	InvokeTypeAsync   = "async-invoke"
-	InvokeTypeSSE     = "sse-invoke"
-	ApiTimeoutSeconds = 300 * time.Second
-	ChatGLMLite       = "chatglm_lite"
-	ChatGLMStd        = "chatglm_std"
-	ChatGLMPro        = "chatglm_pro"
+	BaseURL         = "https://open.bigmodel.cn/api/paas/v3/model-api"
+	InvokeTypeSync  = "invoke"
+	InvokeTypeAsync = "async-invoke"
+	InvokeTypeSSE   = "sse-invoke"
+	APITimeout      = 300 * time.Second
+	ChatGLMLite     = "chatglm_lite"
+	ChatGLMStd      = "chatglm_std"
+	ChatGLMPro      = "chatglm_pro"
 )
 
 func (m ModelAPI) Invoke(apiKey string) (map[string]interface{}, error) {
@@ -29,7 +29,7 @@ func (m ModelAPI) Invoke(apiKey string) (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return post(buildApiUrl(m.Model, InvokeTypeSync), token, m.buildParams(), ApiTimeoutSeconds)
+	return post(buildAPIURL(m.Model, InvokeTypeSync), token, m.buildParams(), APITimeout)
 }
 
 func (m ModelAPI) AsyncInvoke(apiKey string) (map[string]interface{}, error) {
@@ -37,7 +37,7 @@ func (m ModelAPI) AsyncInvoke(apiKey string) (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return post(buildApiUrl(m.Model, InvokeTypeAsync), token, m.buildParams(), ApiTimeoutSeconds)
+	return post(buildAPIURL(m.Model, InvokeTypeAsync), token, m.buildParams(), APITimeout)
 }
 
 func (m ModelAPI) buildParams() map[string]interface{} {
@@ -48,7 +48,7 @@ func (m ModelAPI) buildParams() map[string]interface{} {
 	return params
 }
 
-func buildApiUrl(module, invokeMethod string) string {
+func buildAPIURL(module, invokeMethod string) string {
 	var url string
 	url = os.Getenv("ZHIPUAI_MODEL_API_URL")
 	if url == "" {

@@ -2,16 +2,20 @@ package chatglm
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
 	"strings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
-const API_TOKEN_TTL_SECONDS = 3 * 60
+const (
+	APITokenTTLSeconds = 3 * 60
+	APIKeyPartCount    = 2
+)
 
 func generateToken(apikey string) (string, error) {
 	parts := strings.Split(apikey, ".")
-	if len(parts) != 2 {
+	if len(parts) != APIKeyPartCount {
 		return "", errors.New("invalid apikey")
 	}
 	id := parts[0]
@@ -19,7 +23,7 @@ func generateToken(apikey string) (string, error) {
 
 	payload := jwt.MapClaims{
 		"api_key":   id,
-		"exp":       time.Now().Add(time.Second * API_TOKEN_TTL_SECONDS).Unix(),
+		"exp":       time.Now().Add(time.Second * APITokenTTLSeconds).Unix(),
 		"timestamp": time.Now().Unix(),
 	}
 
