@@ -33,9 +33,9 @@ m := chatglm.ModelAPI{
 
 ## Examples
 
-- [sync](./example/sync/)
-- [async](./example/async/)
-- [stream](./example/stream/)
+- [sync](https://github.com/sunny0826/go-chatglm/tree/main/examples/sync)
+- [async](https://github.com/sunny0826/go-chatglm/tree/main/examples/async)
+- [stream](https://github.com/sunny0826/go-chatglm/tree/main/examples/stream)
 
 ## license
 
