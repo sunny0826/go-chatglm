@@ -1,19 +1,13 @@
-# Sync
-
-To run an example:
-
-```shell
-export API_KEY="<your api key here>"
-go run ./example/async/
-```
+# Stream
 
 ```go
 package main
 
 import (
 	"fmt"
-	"github.com/sunny0826/go-chatglm"
 	"os"
+
+	"github.com/sunny0826/go-chatglm"
 )
 
 func main() {
@@ -30,11 +24,28 @@ func main() {
 			{"role": "user", "content": "你都可以做些什么事"},
 		},
 	}
-	resp, err := m.Invoke(apiKey)
+	sseClient, err := m.SSEInvoke(apiKey)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(resp)
+
+	eventChan := sseClient.ReadEvents()
+
+	for event := range eventChan {
+		switch event.Event {
+		case "add":
+			fmt.Println(event.Data)
+		case "error", "interrupted":
+			fmt.Println(event.Data)
+		case "finish":
+			fmt.Println(event.Data)
+			for key, value := range event.Meta {
+				fmt.Printf("%s: %s\n", key, value)
+			}
+		default:
+			fmt.Println(event.Data)
+		}
+	}
 }
 ```
