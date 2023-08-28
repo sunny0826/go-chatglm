@@ -3,6 +3,7 @@ package chatglm
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -38,6 +39,19 @@ func (m ModelAPI) AsyncInvoke(apiKey string) (map[string]interface{}, error) {
 		return nil, err
 	}
 	return post(buildAPIURL(m.Model, InvokeTypeAsync), token, m.buildParams(), APITimeout)
+}
+
+func (m ModelAPI) SSEInvoke(apiKey string) (*SSEClient, error) {
+	token, err := generateToken(apiKey)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := stream(buildAPIURL(m.Model, InvokeTypeSSE), token, m.buildParams(), APITimeout)
+	if err != nil {
+		return nil, err
+	}
+	eventSource := strings.NewReader(string(resp.Body()))
+	return NewSSEClient(eventSource, "utf-8"), nil
 }
 
 func QueryAsyncInvokeResult(apiKey, taskID string) (map[string]interface{}, error) {
