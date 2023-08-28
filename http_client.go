@@ -42,7 +42,7 @@ func stream(apiURL, token string, params map[string]interface{}, timeout time.Du
 	client := resty.New()
 	client.SetTimeout(timeout)
 	resp, err := client.R().
-		SetHeaders(headers).
+		SetHeader("Accept", "text/event-stream").
 		SetHeader("Authorization", token).
 		SetQueryParam("stream", "true").
 		SetBody(params).
